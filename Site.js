@@ -454,108 +454,9 @@ const createScene = function () {
 
     //const ground = BABYLON.MeshBuilder.CreateGround("ground", { height: 25, width: 150, subdivisions: 1 });
 
-    const advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("myUI");
-    //const advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateForMesh(ground);
-    var text0 = new BABYLON.GUI.TextBlock();
-    text0.text = "";
-    text0.color = "white";
-    text0.fontSize = 34;
-    advancedTexture.addControl(text0);
-    text0.textVerticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
-    text0.top = 60;
-
-    //ground.material = skyMaterial;
-    //ground.position.y = -5;
-    //ground.position.z = -15;
-    //ground.rotation.x = -PI/4;
-    //ground.rotation.y = PI;
-    //ground.parent = camera;
 
 
-
-    var anchor = new BABYLON.TransformNode("");
-
-
-
-    var manager = new BABYLON.GUI.GUI3DManager(scene);
-
-    var panel = new BABYLON.GUI.StackPanel3D();
-    if (this.outerWidth > this.outerHeight) {
-        panel.isVertical = false;
-    } else {
-        panel.isVertical = true;
-    }
-
-
-    //panel.radius = 5;
-    panel.margin = 0.10475;
-
-    manager.addControl(panel);
-
-    panel.position.y = 0;
-    //panel._columns = 1;
-    panel.linkToTransformNode(anchor);
-
-    anchor.position.y = 5;
-
-    var stxt = "";
-    var addButton = function (txt, value) {
-
-        var button = new BABYLON.GUI.HolographicButton("");
-        panel.addControl(button);
-        button.backgroundColor = "Black";
-        //button.text.fontSize = 12;
-        const text1 = new BABYLON.GUI.TextBlock();
-        text1.color = "White";
-        text1.fontSize = 32;
-        if (typeof value === "object") {
-
-            if (txt === "0") { txt = "Back"; }
-            try {
-                text1.text = txt.replace(/_/g, "\n");
-                //text0.text = text1.text;
-            }
-            catch {
-                text1.text = txt;
-                //text0.text = text1.text;
-            }
-
-            //text1.text = txt;
-            button.content = text1;
-            //button.text = txt;
-            button.onPointerUpObservable.add(function (txt) {
-                //console.log(button.text);
-                try {
-                    stxt = text1.text.replace(/\n/g, "_");
-                }
-                catch {
-                    stxt = text1.text;// = txt;
-                }
-                //stxt = text1.text;
-                clk = 1;
-                //camera.alpha = ca;
-                return stxt;
-            });
-        } else {
-            //button.text = value;
-
-            text1.text = value;
-        }
-        button.content = text1;
-        var btnCnt = button.content;
-        //button.textWrapping = true;
-        //btnCnt.color = "Red";
-        btnCnt._scaleY = 1;
-        button.content._scaleX = 1;
-        //btnCnt._paddingTop.value=-125;
-        //button.content._currentMeassure.height = 60;
-        //button._clipContent=false;
-        //btnCnt.height = 0.075;
-        //console.log(button.content._height);
-
-
-    }
-
+   
     scene.registerBeforeRender(() => {
 
         //ground.rotation.y = camera.alpha;
@@ -564,129 +465,16 @@ const createScene = function () {
 
 
         if (this.outerWidth > this.outerHeight) {
-            panel.isVertical = false;
             whr = this.outerWidth / this.outerHeight;
-            cz = 2.5;
-            anchor.position.y = 5;
-        } else {
-            panel.isVertical = true;
-            whr = this.outerHeight / this.outerWidth;
-            cz = 5;
-            anchor.position.x = 0;
 
+        } else {
+            whr = this.outerHeight / this.outerWidth;
         }
 
         skyMaterial.inclination += 0.000255;
-        //console.log(skyMaterial.inclination);
         if (skyMaterial.inclination > (0.4985 - 0.000255)) { skyMaterial.inclination = -0.4985 + 0.000255 * 0; }
 
-        /* if (camera.beta >= PI / 2) { camera.beta = PI / 2; }
-        if (camera.beta <= PI / 2.5) { camera.beta = PI / 2.5; } */
 
-        /* if (camera.alpha >= 2 * 2.375 * PI / 2) { camera.alpha = 2 * 2.375 * PI / 2; }
-        if (camera.alpha <= 0.55 * 2.375 * PI / 2) { camera.alpha = 0.55 * 2.375 * PI / 2; } */
-        //  3 * PI / 2
-        if (camera.radius <= cz) { camera.radius = cz; }
-        if (camera.radius >= cz) { camera.radius = cz; }
-
-        if (clk === -1) {
-            panel.blockLayout = true;
-            //panel._columns = 24;
-            for (let key in e) {
-                //console.log(mn[key].lbl);
-                addButton(key, e[key]);
-            }
-            panel.blockLayout = false;
-            //en.push(e);
-            //mstxt.push(" ");
-            enlen = en.length;
-            //console.log(e, enlen, mstxt)
-            clk = 0;
-            //console.log(panel, clmns);
-
-        }
-        if (clk === 0) {
-
-            /* if (fcs === 0) {
-                camera.alpha = ca;
-            } */
-
-            //anchor.rotation.y+=0.0001;
-
-
-        }
-        if (clk === 1) {
-            //console.log(stxt);
-            panel.children.forEach(element => {
-                element.dispose();
-            });
-
-            /*             if (orn === 1 && panel._columns !== 1) {
-                            panel._columns = 1;
-                            ca = -ca;
-                            cz = -cz;
-                        }
-                        if (orn === 0 && panel._columns !== 26) {
-                            panel._columns = 26;
-                            ca = -ca;
-                            cz = -cz;
-                        } */
-
-            if (stxt === "Back" && en.length > 0 && mstxt.length > 0) {
-                mstxt.pop();
-                var mtxt = mstxt[mstxt.length - 1];
-                /*                         if (mtxt) {
-                                            try {
-                                                text0.text = "LV Projects\n" + mtxt.replace(/_/g, "\n");
-                                            }
-                                            catch {
-                                                text0.text = "LV Projects\n" + mtxt;
-                                            }
-                                        } else {
-                                            text0.text = "LV Projects\n" + "";
-                                        } */
-                en.pop();
-                enlen = en.length - 1;
-                if (en.length > 0) {
-                    e = en[enlen][mtxt];
-                }
-                if (en.length === 0) {
-                    e = mn;
-                }
-                if (panel.isVertical) {
-                    anchor.position.y = 5;
-                } else {
-                    anchor.position.x = 0;
-                }
-                //console.log(e, enlen, mstxt);
-            }
-            if (stxt !== "Back") {
-                mstxt.push(stxt);
-                /*                         try {
-                                            text0.text = "LV Projects\n" + stxt.replace(/_/g, "\n");
-                                        }
-                                        catch {
-                                            text0.text = "LV Projects\n" + stxt;
-                                        } */
-                //text0.text = stxt;
-                en.push(e);
-                enlen = en.length - 1;
-                e = en[enlen][stxt];
-                if (panel.isVertical) {
-                    anchor.position.y = 5;
-                } else {
-                    anchor.position.x = 0;
-                }
-                //console.log(en, enlen, mstxt)
-            }
-            clk = -1;
-        }
-        //console.log(clk);
-
-        //clk = 0;
-        if (fcs === 0) {
-            //camera.alpha = ca;
-        }
 
 
     });
@@ -695,75 +483,21 @@ const createScene = function () {
     scene.onPointerObservable.add((pointerInfo) => {
         switch (pointerInfo.type) {
             case BABYLON.PointerEventTypes.POINTERDOWN:
-                //text0.text = "POINTER DOWN";
-                strt = [scene.pointerX, scene.pointerY];
                 break;
             case BABYLON.PointerEventTypes.POINTERUP:
-                /*                 crrt = [scene.pointerX, scene.pointerY];
-                                dfrc = [crrt[0] - strt[0], crrt[1] - strt[1]];
                 
-                                if ((Math.abs(dfrc[0]) > Math.abs(dfrc[1])) && panel.isVertical === false) {
-                                    //text0.text = "Horizontal";
-                                    anchor.position.x += dfrc[0] / 1000 * whr;
-                                }
-                                if ((Math.abs(dfrc[0]) < Math.abs(dfrc[1])) && panel.isVertical === true) {
-                                    //text0.text = "Vertical\n";
-                                    //text0.text += dfrc[0] + "," + dfrc[1];
-                                    anchor.position.y -= dfrc[1] / 1000 * whr;
-                                } */
-                strt = [];
-                crrt = [];
-                dfrc = [];
-                //text0.text = dfrc[0] + "," + dfrc[1];
-                //text0.text = "POINTER UP";
                 break;
             case BABYLON.PointerEventTypes.POINTERMOVE:
-                if (strt.length > 0) {
-                    crrt = [scene.pointerX, scene.pointerY];
-                    dfrc = [crrt[0] - strt[0], crrt[1] - strt[1]];
-
-                    if ((Math.abs(dfrc[0]) > Math.abs(dfrc[1])) && panel.isVertical === false) {
-                        //text0.text = "Horizontal";
-                        anchor.position.x += dfrc[0] / 2000 * whr;
-                        if (anchor.position.x > 0 + Object.keys(e).length / 2) {
-                            anchor.position.x = 0 + Object.keys(e).length / 2;
-                        }
-                        if (anchor.position.x < 0 - Object.keys(e).length / 2) {
-                            anchor.position.x = 0 - Object.keys(e).length / 2;
-                        }
-                    }
-                    if ((Math.abs(dfrc[0]) < Math.abs(dfrc[1])) && panel.isVertical === true) {
-                        //text0.text = "Vertical\n";
-                        //text0.text += dfrc[0] + "," + dfrc[1];
-                        anchor.position.y -= dfrc[1] / 2000 * whr;
-                        if (anchor.position.y > 5 + Object.keys(e).length / 2) {
-                            anchor.position.y = 5 + Object.keys(e).length / 2;
-                        }
-                        if (anchor.position.y < 5 - Object.keys(e).length / 2) {
-                            anchor.position.y = 5 - Object.keys(e).length / 2;
-                        }
-                    }
-                    //text0.text = "POINTER MOVES";
-                    //text0.text = anchor.position.y;
-
-
-                }
+               
                 break;
             case BABYLON.PointerEventTypes.POINTERWHEEL:
-                if (panel.isVertical) {
-                    text0.text = "POINTER WHEEL";
-                    // console.log(scene);
-                }
-                //text0.text = "POINTER WHEEL";
+
                 break;
             case BABYLON.PointerEventTypes.POINTERPICK:
-                //text0.text = "POINTER PICK";
                 break;
             case BABYLON.PointerEventTypes.POINTERTAP:
-                //text0.text = "POINTER TAP";
                 break;
             case BABYLON.PointerEventTypes.POINTERDOUBLETAP:
-                //text0.text = "POINTER DOUBLE-TAP";
                 break;
         }
     })
@@ -771,12 +505,11 @@ const createScene = function () {
 
     return scene;
 };
-const scene = createScene(); //Call the createScene function
-// Register a render loop to repeatedly render the scene
+const scene = createScene();
 engine.runRenderLoop(function () {
     scene.render();
 });
-// Watch for browser/canvas resize events
+
 window.addEventListener("resize", function () {
     engine.resize();
 
@@ -786,16 +519,12 @@ window.addEventListener("resize", function () {
         orn = 1;
     }
 
-    //console.log(this.outerWidth);
-    //console.log(this.outerHeight);
 });
 window.addEventListener("focusin", (event) => {
     fcs = 1;
-    //console.log(fcs);
 
 });
 window.addEventListener("focusout", (event) => {
     fcs = 0;
-    //console.log(fcs);
 
 });
